@@ -4,12 +4,16 @@ import { fetchMealDetail } from '../api/api';
 import LoadingIndicator from '../components/LoadingIndicator';
 import ErrorMessage from '../components/ErrorMessage';
 import { Ionicons } from '@expo/vector-icons';
+import useFavoritesStore from '../store/favorites';
 
 const DetailScreen = ({ route }) => {
   const { recipeId } = route.params || {};
   const [meal, setMeal] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  const { addFavorite, removeFavorite, isFavorite } = useFavoritesStore();
+  const favorite = isFavorite(recipeId);
 
   useEffect(() => {
     const getMealDetail = async () => {
@@ -28,9 +32,14 @@ const DetailScreen = ({ route }) => {
     }
   }, [recipeId]);
 
-  const handleAddToFavorite = () => {
-    // Logic for store will be added later
-    Alert.alert('Sukses', `${meal.strMeal} ditambahkan ke favorit!`);
+  const toggleFavorite = () => {
+    if (favorite) {
+      removeFavorite(recipeId);
+      Alert.alert('Info', 'Dihapus dari favorit');
+    } else {
+      addFavorite(meal);
+      Alert.alert('Sukses', 'Ditambahkan ke favorit');
+    }
   };
 
   if (loading) return <LoadingIndicator />;
@@ -57,28 +66,34 @@ const DetailScreen = ({ route }) => {
           
           <TouchableOpacity 
             style={styles.favoriteButton} 
-            onPress={handleAddToFavorite}
+            onPress={toggleFavorite}
           >
-            <Ionicons name="heart-outline" size={28} color="#FF6347" />
+            <Ionicons 
+              name={favorite ? "heart" : "heart-outline"} 
+              size={28} 
+              color="#FF6347" 
+            />
           </TouchableOpacity>
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Tags</Text>
-          <Text style={styles.tagsText}>{meal.strTags || 'No tags available'}</Text>
+          <Text style={styles.tagsText}>{meal.strTags || 'Tag tidak tersedia'}</Text>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Instructions</Text>
+          <Text style={styles.sectionTitle}>Cara Membuat</Text>
           <Text style={styles.instructions}>{meal.strInstructions}</Text>
         </View>
 
         <TouchableOpacity 
-          style={styles.mainButton} 
-          onPress={handleAddToFavorite}
+          style={[styles.mainButton, favorite && styles.removeButton]} 
+          onPress={toggleFavorite}
         >
-          <Ionicons name="heart" size={20} color="#fff" />
-          <Text style={styles.mainButtonText}>Tambah ke Favorit</Text>
+          <Ionicons name={favorite ? "heart-dislike" : "heart"} size={20} color="#fff" />
+          <Text style={styles.mainButtonText}>
+            {favorite ? "Hapus dari Favorit" : "Tambah ke Favorit"}
+          </Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -164,6 +179,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 30,
     gap: 10,
+  },
+  removeButton: {
+    backgroundColor: '#9e9e9e',
   },
   mainButtonText: {
     color: '#fff',
