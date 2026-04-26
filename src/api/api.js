@@ -32,3 +32,14 @@ export const fetchMealDetail = async (id) => {
     throw error;
   }
 };
+
+export const searchMeals = async (query) => {
+  try {
+    const response = await fetch(`${BASE_URL}/search.php?s=${query}`);
+    const data = await response.json();
+    return data.meals || []; // Return empty array if no meals found
+  } catch (error) {
+    console.error('Error searching meals:', error);
+    throw error;
+  }
+};
