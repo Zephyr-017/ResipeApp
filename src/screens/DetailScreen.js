@@ -42,9 +42,23 @@ const DetailScreen = ({ route }) => {
     }
   };
 
+  const getIngredients = () => {
+    let ingredients = [];
+    for (let i = 1; i <= 20; i++) {
+      const ingredient = meal[`strIngredient${i}`];
+      const measure = meal[`strMeasure${i}`];
+      if (ingredient && ingredient.trim() !== '') {
+        ingredients.push(`${measure} ${ingredient}`);
+      }
+    }
+    return ingredients;
+  };
+
   if (loading) return <LoadingIndicator />;
   if (error) return <ErrorMessage message={error} />;
   if (!meal) return <ErrorMessage message="Resep tidak ditemukan" />;
+
+  const ingredientsList = getIngredients();
 
   return (
     <ScrollView style={styles.container}>
@@ -71,16 +85,29 @@ const DetailScreen = ({ route }) => {
             <Ionicons 
               name={favorite ? "heart" : "heart-outline"} 
               size={28} 
-              color="#FF6347" 
+              color="#2E7D32" 
             />
           </TouchableOpacity>
         </View>
 
+        {/* Tags Section - Moved Up */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Tags</Text>
           <Text style={styles.tagsText}>{meal.strTags || 'Tag tidak tersedia'}</Text>
         </View>
 
+        {/* Ingredients Section */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Bahan-bahan</Text>
+          {ingredientsList.map((item, index) => (
+            <View key={index} style={styles.ingredientRow}>
+              <Ionicons name="checkmark-circle-outline" size={18} color="#2E7D32" />
+              <Text style={styles.ingredientText}>{item}</Text>
+            </View>
+          ))}
+        </View>
+
+        {/* Instructions Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Cara Membuat</Text>
           <Text style={styles.instructions}>{meal.strInstructions}</Text>
@@ -103,7 +130,7 @@ const DetailScreen = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#E2DFD2',
   },
   image: {
     width: '100%',
@@ -115,6 +142,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     marginTop: -30,
     backgroundColor: '#fff',
+    elevation: 5,
   },
   header: {
     flexDirection: 'row',
@@ -133,13 +161,13 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   badge: {
-    backgroundColor: '#FFF3E0',
+    backgroundColor: '#E2DFD2',
     paddingVertical: 5,
     paddingHorizontal: 12,
     borderRadius: 10,
   },
   badgeText: {
-    color: '#E65100',
+    color: '#2C3639',
     fontSize: 12,
     fontWeight: 'bold',
   },
@@ -150,17 +178,34 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   section: {
-    marginBottom: 20,
+    marginBottom: 25,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: 10,
+    marginBottom: 12,
+    borderBottomWidth: 2,
+    borderBottomColor: '#E8F5E9',
+    paddingBottom: 5,
+    alignSelf: 'flex-start',
+  },
+  ingredientRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+    backgroundColor: '#F9F9F9',
+    padding: 10,
+    borderRadius: 8,
+  },
+  ingredientText: {
+    fontSize: 15,
+    color: '#444',
+    marginLeft: 10,
   },
   tagsText: {
     fontSize: 14,
-    color: '#666',
+    color: '#484848ff',
     fontStyle: 'italic',
   },
   instructions: {
@@ -170,7 +215,7 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
   },
   mainButton: {
-    backgroundColor: '#FF6347',
+    backgroundColor: '#2E7D32',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

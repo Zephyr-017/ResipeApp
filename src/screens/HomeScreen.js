@@ -52,7 +52,7 @@ const HomeScreen = ({ navigation }) => {
   }
 
   return (
-    <ScrollView 
+    <ScrollView
       style={styles.container}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
     >
@@ -62,9 +62,9 @@ const HomeScreen = ({ navigation }) => {
       </View>
 
       {meal && (
-        <RecipeCard 
-          item={meal} 
-          onPress={() => navigation.navigate('Detail', { recipeId: meal.idMeal })} 
+        <RecipeCard
+          item={meal}
+          onPress={() => navigation.navigate('Detail', { recipeId: meal.idMeal })}
         />
       )}
 
@@ -76,7 +76,7 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#E2DFD2',
   },
   center: {
     flex: 1,
@@ -103,12 +103,12 @@ const styles = StyleSheet.create({
   },
   hint: {
     marginTop: 10,
-    color: '#999',
+    color: '#484848ff',
     fontSize: 12,
   },
   footerHint: {
     textAlign: 'center',
-    color: '#999',
+    color: '#484848ff',
     marginVertical: 20,
     fontSize: 14,
     fontStyle: 'italic',

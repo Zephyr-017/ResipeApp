@@ -52,36 +52,39 @@ const SearchScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* Search Form */}
+      {/* Search Form Header Container */}
       <View style={styles.searchBox}>
-        <View style={[styles.inputContainer, validationError ? styles.inputError : null]}>
-          <Ionicons name="search" size={20} color="#999" style={styles.searchIcon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Cari menu (misal: Chicken, Pasta)"
-            value={query}
-            onChangeText={(text) => {
-              setQuery(text);
-              if (validationError) setValidationError('');
-            }}
-            onSubmitEditing={handleSearch}
-          />
-          {query.length > 0 && (
-            <TouchableOpacity onPress={() => setQuery('')}>
-              <Ionicons name="close-circle" size={20} color="#ccc" />
-            </TouchableOpacity>
-          )}
+        {/* Row for Input and Button */}
+        <View style={styles.inputRow}>
+          <View style={[styles.inputContainer, validationError ? styles.inputError : null]}>
+            <Ionicons name="search" size={20} color="#484848ff" style={styles.searchIcon} />
+            <TextInput
+              style={styles.input}
+              placeholder="Cari menu (misal: Chicken, Pasta)"
+              value={query}
+              onChangeText={(text) => {
+                setQuery(text);
+                if (validationError) setValidationError('');
+              }}
+              onSubmitEditing={handleSearch}
+            />
+            {query.length > 0 && (
+              <TouchableOpacity onPress={() => setQuery('')}>
+                <Ionicons name="close-circle" size={20} color="#ccc" />
+              </TouchableOpacity>
+            )}
+          </View>
+          
+          <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+            <Text style={styles.searchButtonText}>Cari</Text>
+          </TouchableOpacity>
         </View>
-        
-        <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-          <Text style={styles.searchButtonText}>Cari</Text>
-        </TouchableOpacity>
-      </View>
 
-      {/* Validation Message */}
-      {validationError ? (
-        <Text style={styles.validationText}>{validationError}</Text>
-      ) : null}
+        {/* Validation Message - NOW INSIDE WHITE AREA */}
+        {validationError ? (
+          <Text style={styles.validationText}>{validationError}</Text>
+        ) : null}
+      </View>
 
       {/* Results Area */}
       {loading ? (
@@ -97,7 +100,7 @@ const SearchScreen = ({ navigation }) => {
           ListEmptyComponent={
             !loading && !results.length && !error && (
               <View style={styles.emptyContainer}>
-                <Ionicons name="restaurant-outline" size={80} color="#eee" />
+                <Ionicons name="restaurant-outline" size={80} color="#fff" />
                 <Text style={styles.emptyText}>Mau masak apa hari ini?</Text>
               </View>
             )
@@ -111,14 +114,23 @@ const SearchScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#E2DFD2',
   },
   searchBox: {
-    flexDirection: 'row',
     padding: 15,
     backgroundColor: '#fff',
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+  },
+  inputRow: {
+    flexDirection: 'row',
     gap: 10,
-    elevation: 2,
+    marginBottom: 5,
   },
   inputContainer: {
     flex: 1,
@@ -144,7 +156,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   searchButton: {
-    backgroundColor: '#FF6347',
+    backgroundColor: '#2E7D32',
     justifyContent: 'center',
     paddingHorizontal: 20,
     borderRadius: 12,
@@ -156,9 +168,8 @@ const styles = StyleSheet.create({
   validationText: {
     color: '#D32F2F',
     fontSize: 12,
-    marginLeft: 20,
-    marginTop: -10,
-    marginBottom: 5,
+    marginTop: 5,
+    marginLeft: 5,
   },
   listContent: {
     paddingBottom: 20,
@@ -170,7 +181,7 @@ const styles = StyleSheet.create({
     marginTop: 100,
   },
   emptyText: {
-    color: '#999',
+    color: '#484848ff',
     fontSize: 16,
     marginTop: 10,
   },

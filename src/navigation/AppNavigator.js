@@ -33,12 +33,21 @@ const MainTabs = () => {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#FF6347',
+        tabBarActiveTintColor: '#2E7D32',
         tabBarInactiveTintColor: 'gray',
         headerShown: true,
+        headerTitleAlign: 'center',
+        headerTintColor: '#2E7D32',
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} options={{ title: 'ResepKita' }} />
+      <Tab.Screen 
+        name="Home" 
+        component={HomeScreen} 
+        options={{ 
+          headerTitle: 'ResepKita', 
+          tabBarLabel: 'Home' 
+        }} 
+      />
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="Favorites" component={FavoritesScreen} />
       <Tab.Screen name="About" component={AboutScreen} />

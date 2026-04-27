@@ -29,7 +29,7 @@ const FavoritesScreen = ({ navigation }) => {
   if (favorites.length === 0) {
     return (
       <View style={styles.emptyContainer}>
-        <Ionicons name="heart-outline" size={80} color="#ccc" />
+        <Ionicons name="heart-outline" size={80} color="#fff" />
         <Text style={styles.emptyText}>Belum ada resep favorit.</Text>
         <TouchableOpacity
           style={styles.exploreButton}
@@ -56,7 +56,7 @@ const FavoritesScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#E2DFD2',
   },
   listContent: {
     paddingBottom: 20,
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 20,
     right: 25,
-    backgroundColor: 'rgba(211, 47, 47, 0.9)',
+    backgroundColor: '#2E7D32',
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 5,
@@ -86,16 +86,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#E2DFD2',
   },
   emptyText: {
     fontSize: 18,
-    color: '#999',
+    color: '#484848ff',
     marginTop: 15,
     marginBottom: 20,
   },
   exploreButton: {
-    backgroundColor: '#FF6347',
+    backgroundColor: '#2E7D32',
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 25,

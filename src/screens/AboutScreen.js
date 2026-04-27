@@ -20,7 +20,7 @@ const AboutScreen = () => {
 
       <View style={styles.infoSection}>
         <View style={styles.infoRow}>
-          <Ionicons name="school-outline" size={24} color="#FF6347" />
+          <Ionicons name="school-outline" size={24} color="#2E7D32" />
           <View style={styles.infoTextContainer}>
             <Text style={styles.infoLabel}>Kelas</Text>
             <Text style={styles.infoValue}>B</Text>
@@ -28,7 +28,7 @@ const AboutScreen = () => {
         </View>
 
         <View style={styles.infoRow}>
-          <Ionicons name="book-outline" size={24} color="#FF6347" />
+          <Ionicons name="book-outline" size={24} color="#2E7D32" />
           <View style={styles.infoTextContainer}>
             <Text style={styles.infoLabel}>Tema Projek</Text>
             <Text style={styles.infoValue}>Tema A</Text>
@@ -36,7 +36,7 @@ const AboutScreen = () => {
         </View>
 
         <View style={styles.infoRow}>
-          <Ionicons name="code-working-outline" size={24} color="#FF6347" />
+          <Ionicons name="code-working-outline" size={24} color="#2E7D32" />
           <View style={styles.infoTextContainer}>
             <Text style={styles.infoLabel}>API Credit</Text>
             <TouchableOpacity onPress={openAPI}>
@@ -57,7 +57,7 @@ const AboutScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#E2DFD2',
   },
   header: {
     backgroundColor: '#fff',
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 15,
     borderWidth: 2,
-    borderColor: '#FF6347',
+    borderColor: '#2E7D32',
   },
   name: {
     fontSize: 22,
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   infoLabel: {
     fontSize: 12,
-    color: '#999',
+    color: '#484848ff',
     textTransform: 'uppercase',
     letterSpacing: 1,
   },
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   link: {
-    color: '#FF6347',
+    color: '#2E7D32',
     textDecorationLine: 'underline',
   },
   footer: {
@@ -129,12 +129,12 @@ const styles = StyleSheet.create({
     padding: 30,
   },
   footerText: {
-    color: '#ccc',
+    color: '#484848ff',
     fontSize: 14,
     fontWeight: 'bold',
   },
   footerSubText: {
-    color: '#ddd',
+    color: '#484848ff',
     fontSize: 12,
     marginTop: 5,
   },

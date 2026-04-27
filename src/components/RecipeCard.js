@@ -8,10 +8,12 @@ const RecipeCard = ({ item, onPress }) => {
       <View style={styles.info}>
         <Text style={styles.title} numberOfLines={1}>{item.strMeal}</Text>
         <View style={styles.badgeContainer}>
-          <Text style={styles.badge}>{item.strCategory}</Text>
-          <Text style={[styles.badge, { backgroundColor: '#E8F5E9', color: '#2E7D32' }]}>
-            {item.strArea}
-          </Text>
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>{item.strCategory}</Text>
+          </View>
+          <View style={[styles.badge, { backgroundColor: '#E8F5E9' }]}>
+            <Text style={[styles.badgeText, { color: '#2E7D32' }]}>{item.strArea}</Text>
+          </View>
         </View>
       </View>
     </TouchableOpacity>
@@ -50,11 +52,13 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   badge: {
-    backgroundColor: '#FFF3E0',
-    color: '#E65100',
+    backgroundColor: '#E2DFD2',
     paddingVertical: 4,
     paddingHorizontal: 10,
     borderRadius: 8,
+  },
+  badgeText: {
+    color: '#2C3639',
     fontSize: 12,
     fontWeight: '600',
   },
