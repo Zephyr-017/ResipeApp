@@ -1,74 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, ScrollView, RefreshControl } from 'react-native';
-import { fetchRandomMeal } from '../api/api';
+import useRandomMeal from '../hooks/useRandomMeal';
+import RecipeCard from '../components/RecipeCard';
 import LoadingIndicator from '../components/LoadingIndicator';
 import ErrorMessage from '../components/ErrorMessage';
-import RecipeCard from '../components/RecipeCard';
 
 const HomeScreen = ({ navigation }) => {
-  const [meal, setMeal] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [refreshing, setRefreshing] = useState(false);
+  const { meal, loading, error, refreshing, onRefresh } = useRandomMeal();
 
-  const getMeal = async () => {
-    try {
-      const data = await fetchRandomMeal();
-      setMeal(data);
-      setError(null);
-    } catch (err) {
-      setError('Gagal memuat resep. Periksa koneksi internet Anda.');
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  };
-
-  useEffect(() => {
-    getMeal();
-  }, []);
-
-  const onRefresh = () => {
-    setRefreshing(true);
-    getMeal();
-  };
-
-  if (loading) {
+  if (loading && !refreshing) {
     return <LoadingIndicator />;
-  }
-
-  if (error) {
-    return (
-      <View style={{ flex: 1 }}>
-        <ScrollView
-          contentContainerStyle={styles.center}
-          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-        >
-          <ErrorMessage message={error} />
-          <Text style={styles.hint}>Tarik ke bawah untuk mencoba lagi</Text>
-        </ScrollView>
-      </View>
-    );
   }
 
   return (
     <ScrollView
       style={styles.container}
-      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['#2E7D32']} />}
     >
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Rekomendasi Hari Ini</Text>
-        <Text style={styles.headerSubtitle}>Menu spesial yang dipilih acak untukmu</Text>
+        <Text style={styles.headerSubtitle}>Menu Spesial yang dipilih khusus untukmu</Text>
       </View>
 
-      {meal && (
-        <RecipeCard
-          item={meal}
-          onPress={() => navigation.navigate('Detail', { recipeId: meal.idMeal })}
-        />
+      {error ? (
+        <ErrorMessage message={error} />
+      ) : (
+        meal && (
+          <RecipeCard
+            item={meal}
+            onPress={() => navigation.navigate('Detail', { recipeId: meal.idMeal })}
+          />
+        )
       )}
 
-      <Text style={styles.footerHint}>Tarik ke bawah untuk melihat menu acak lainnya!</Text>
+      <Text style={styles.footerHint}>Coba resep lainnya dengan tarik ke bawah!</Text>
     </ScrollView>
   );
 };
@@ -78,21 +43,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#E2DFD2',
   },
-  center: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   header: {
     padding: 20,
     backgroundColor: '#fff',
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30,
-    elevation: 2,
-    marginBottom: 10,
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25,
+    elevation: 3,
   },
   headerTitle: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
     color: '#333',
   },

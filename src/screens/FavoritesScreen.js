@@ -1,11 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import useFavoritesStore from '../store/favorites';
+import useFavoriteAction from '../hooks/useFavoriteAction';
 import RecipeCard from '../components/RecipeCard';
 import { Ionicons } from '@expo/vector-icons';
 
 const FavoritesScreen = ({ navigation }) => {
-  const { favorites, removeFavorite } = useFavoritesStore();
+  const { favorites } = useFavoritesStore();
+  const { confirmRemove } = useFavoriteAction();
 
   const renderItem = ({ item }) => (
     <View style={styles.cardContainer}>
@@ -15,10 +17,7 @@ const FavoritesScreen = ({ navigation }) => {
       />
       <TouchableOpacity
         style={styles.removeBadge}
-        onPress={() => {
-          removeFavorite(item.idMeal);
-          Alert.alert('Info', `${item.strMeal} dihapus dari favorit`);
-        }}
+        onPress={() => confirmRemove(item)}
       >
         <Ionicons name="trash-outline" size={18} color="#fff" />
         <Text style={styles.removeText}>Hapus</Text>
@@ -68,7 +67,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 20,
     right: 25,
-    backgroundColor: '#2E7D32',
+    backgroundColor: 'rgba(211, 47, 47, 0.9)',
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 5,

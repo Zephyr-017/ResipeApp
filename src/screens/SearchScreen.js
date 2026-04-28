@@ -1,47 +1,23 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList, Keyboard } from 'react-native';
-import { searchMeals } from '../api/api';
+import React from 'react';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList } from 'react-native';
+import useSearch from '../hooks/useSearch';
 import RecipeCard from '../components/RecipeCard';
 import LoadingIndicator from '../components/LoadingIndicator';
 import ErrorMessage from '../components/ErrorMessage';
 import { Ionicons } from '@expo/vector-icons';
 
 const SearchScreen = ({ navigation }) => {
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [validationError, setValidationError] = useState('');
-
-  const handleSearch = async () => {
-    // Reset states
-    setValidationError('');
-    setError(null);
-    Keyboard.dismiss();
-
-    // Client-side Validation
-    if (!query.trim()) {
-      setValidationError('Kata kunci tidak boleh kosong');
-      return;
-    }
-    if (query.trim().length < 3) {
-      setValidationError('Minimal pencarian adalah 3 karakter');
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const data = await searchMeals(query);
-      setResults(data);
-      if (data.length === 0) {
-        setError('Tidak ada resep yang ditemukan dengan kata kunci tersebut.');
-      }
-    } catch (err) {
-      setError('Terjadi kesalahan saat mencari resep.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { 
+    query, 
+    setQuery, 
+    results, 
+    loading, 
+    error, 
+    validationError, 
+    handleSearch, 
+    clearSearch,
+    setValidationError
+  } = useSearch();
 
   const renderItem = ({ item }) => (
     <RecipeCard 
@@ -52,9 +28,7 @@ const SearchScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* Search Form Header Container */}
       <View style={styles.searchBox}>
-        {/* Row for Input and Button */}
         <View style={styles.inputRow}>
           <View style={[styles.inputContainer, validationError ? styles.inputError : null]}>
             <Ionicons name="search" size={20} color="#484848ff" style={styles.searchIcon} />
@@ -69,7 +43,7 @@ const SearchScreen = ({ navigation }) => {
               onSubmitEditing={handleSearch}
             />
             {query.length > 0 && (
-              <TouchableOpacity onPress={() => setQuery('')}>
+              <TouchableOpacity onPress={clearSearch}>
                 <Ionicons name="close-circle" size={20} color="#ccc" />
               </TouchableOpacity>
             )}
@@ -80,13 +54,11 @@ const SearchScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {/* Validation Message - NOW INSIDE WHITE AREA */}
         {validationError ? (
           <Text style={styles.validationText}>{validationError}</Text>
         ) : null}
       </View>
 
-      {/* Results Area */}
       {loading ? (
         <LoadingIndicator />
       ) : error ? (

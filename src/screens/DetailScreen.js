@@ -1,69 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { fetchMealDetail } from '../api/api';
+import React from 'react';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
+import useMealDetail from '../hooks/useMealDetail';
+import useFavoriteAction from '../hooks/useFavoriteAction';
 import LoadingIndicator from '../components/LoadingIndicator';
 import ErrorMessage from '../components/ErrorMessage';
 import { Ionicons } from '@expo/vector-icons';
-import useFavoritesStore from '../store/favorites';
 
 const DetailScreen = ({ route }) => {
   const { recipeId } = route.params || {};
-  const [meal, setMeal] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  
-  const { addFavorite, removeFavorite, isFavorite } = useFavoritesStore();
-  const favorite = isFavorite(recipeId);
+  const { meal, loading, error, ingredientsList } = useMealDetail(recipeId);
+  const { toggleFavorite, isFavorite } = useFavoriteAction();
 
-  useEffect(() => {
-    const getMealDetail = async () => {
-      try {
-        const data = await fetchMealDetail(recipeId);
-        setMeal(data);
-      } catch (err) {
-        setError('Gagal memuat detail resep.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (recipeId) {
-      getMealDetail();
-    }
-  }, [recipeId]);
-
-  const toggleFavorite = () => {
-    if (favorite) {
-      removeFavorite(recipeId);
-      Alert.alert('Info', 'Dihapus dari favorit');
-    } else {
-      addFavorite(meal);
-      Alert.alert('Sukses', 'Ditambahkan ke favorit');
-    }
-  };
-
-  const getIngredients = () => {
-    let ingredients = [];
-    for (let i = 1; i <= 20; i++) {
-      const ingredient = meal[`strIngredient${i}`];
-      const measure = meal[`strMeasure${i}`];
-      if (ingredient && ingredient.trim() !== '') {
-        ingredients.push(`${measure} ${ingredient}`);
-      }
-    }
-    return ingredients;
-  };
+  const favorite = meal ? isFavorite(meal.idMeal) : false;
 
   if (loading) return <LoadingIndicator />;
   if (error) return <ErrorMessage message={error} />;
   if (!meal) return <ErrorMessage message="Resep tidak ditemukan" />;
 
-  const ingredientsList = getIngredients();
-
   return (
     <ScrollView style={styles.container}>
       <Image source={{ uri: meal.strMealThumb }} style={styles.image} />
-      
+
       <View style={styles.content}>
         <View style={styles.header}>
           <View style={{ flex: 1 }}>
@@ -77,26 +34,24 @@ const DetailScreen = ({ route }) => {
               </View>
             </View>
           </View>
-          
-          <TouchableOpacity 
-            style={styles.favoriteButton} 
-            onPress={toggleFavorite}
+
+          <TouchableOpacity
+            style={styles.favoriteButton}
+            onPress={() => toggleFavorite(meal)}
           >
-            <Ionicons 
-              name={favorite ? "heart" : "heart-outline"} 
-              size={28} 
-              color="#2E7D32" 
+            <Ionicons
+              name={favorite ? "heart" : "heart-outline"}
+              size={28}
+              color="#2E7D32"
             />
           </TouchableOpacity>
         </View>
 
-        {/* Tags Section - Moved Up */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Tags</Text>
           <Text style={styles.tagsText}>{meal.strTags || 'Tag tidak tersedia'}</Text>
         </View>
 
-        {/* Ingredients Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Bahan-bahan</Text>
           {ingredientsList.map((item, index) => (
@@ -107,15 +62,14 @@ const DetailScreen = ({ route }) => {
           ))}
         </View>
 
-        {/* Instructions Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Cara Membuat</Text>
           <Text style={styles.instructions}>{meal.strInstructions}</Text>
         </View>
 
-        <TouchableOpacity 
-          style={[styles.mainButton, favorite && styles.removeButton]} 
-          onPress={toggleFavorite}
+        <TouchableOpacity
+          style={[styles.mainButton, favorite && styles.removeButton]}
+          onPress={() => toggleFavorite(meal)}
         >
           <Ionicons name={favorite ? "heart-dislike" : "heart"} size={20} color="#fff" />
           <Text style={styles.mainButtonText}>
