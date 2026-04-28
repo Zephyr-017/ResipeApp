@@ -3,7 +3,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 
-// Import Screens
 import HomeScreen from '../screens/HomeScreen';
 import SearchScreen from '../screens/SearchScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
@@ -40,13 +39,13 @@ const MainTabs = () => {
         headerTintColor: '#2E7D32',
       })}
     >
-      <Tab.Screen 
-        name="Home" 
-        component={HomeScreen} 
-        options={{ 
-          headerTitle: 'ResepKita', 
-          tabBarLabel: 'Home' 
-        }} 
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          headerTitle: 'ResepKita',
+          tabBarLabel: 'Home'
+        }}
       />
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="Favorites" component={FavoritesScreen} />

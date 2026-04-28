@@ -10,10 +10,10 @@ const AboutScreen = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        {/* Placeholder for Profile Picture */}
-        <View style={styles.profileImageContainer}>
-          <Ionicons name="person" size={80} color="#ccc" />
-        </View>
+        <Image
+          source={require('../../assets/pfp.jpeg')}
+          style={styles.profileImage}
+        />
         <Text style={styles.name}>Muhamad Zidan Rabani</Text>
         <Text style={styles.nim}>NIM: 2410501036</Text>
       </View>
@@ -31,7 +31,7 @@ const AboutScreen = () => {
           <Ionicons name="book-outline" size={24} color="#2E7D32" />
           <View style={styles.infoTextContainer}>
             <Text style={styles.infoLabel}>Tema Projek</Text>
-            <Text style={styles.infoValue}>Tema A</Text>
+            <Text style={styles.infoValue}>Tema A - ResepKita</Text>
           </View>
         </View>
 
@@ -71,13 +71,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 10,
   },
-  profileImageContainer: {
+  profileImage: {
     width: 120,
     height: 120,
     borderRadius: 60,
     backgroundColor: '#f1f1f1',
-    justifyContent: 'center',
-    alignItems: 'center',
     marginBottom: 15,
     borderWidth: 2,
     borderColor: '#2E7D32',
