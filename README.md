@@ -52,9 +52,7 @@ Berikut adalah tampilan antarmuka dari aplikasi ResepKita:
 
 ## Link Video Demo
 Tonton video demo penggunaan aplikasi ResepKita di bawah ini:
-
-
-
+https://drive.google.com/file/d/1zVqoIjaHtfO8l1TWIa8GvETdPbB3qr40/view?usp=drive_link
 
 ## Justifikasi Pemilihan State Management (Zustand)
 Saya memilih Zustand sebagai pengelola state dalam proyek ini karena caranya yang sangat simpel dan ringan, sehingga kita tidak perlu menulis banyak kode rumit seperti pada Redux. Penggunaannya terasa sangat alami bagi pengembang React karena berbasis hooks, namun tetap memberikan performa yang cepat karena hanya memperbarui komponen yang memang membutuhkan data tersebut. Selain itu, Zustand sudah dilengkapi fitur canggih untuk menyimpan data secara otomatis ke memori perangkat (AsyncStorage), yang sangat memudahkan kita dalam mengelola fitur seperti daftar favorit tanpa konfigurasi yang membingungkan.
@@ -73,7 +71,7 @@ Saya memilih Zustand sebagai pengelola state dalam proyek ini karena caranya yan
 11. [YouTube Tutorial - Recipe App](https://youtu.be/cdnneQjsoT0?si=lpCC9u6fS9J6_M6p)
 12. [React Custom Hooks Concept](https://react.dev/learn/reusing-logic-with-custom-hooks)
 
-## Refleksi Pembuatan Aplikasi (Draft)
+## Refleksi Pembuatan Aplikasi
 
 Selama mengerjakan aplikasi ResepKita, saya mendapatkan banyak pelajaran mengenai pengembangan aplikasi mobile menggunakan React Native dan Expo.
 Saya belajar cara menyusun navigasi yang nyaman bagi pengguna dengan menggabungkan Bottom Tabs untuk menu utama dan Stack Navigator untuk halaman detail. 
